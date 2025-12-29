@@ -1,22 +1,97 @@
+import cart
+import storage
+def customer_dashboard(products: list, orders:list):
+    current_cart = cart.create_cart()
+    while True:
+        print("---------------")
+        print("customer dashboard")
+        print("---------------")
+        print("1. Browse Products")
+        print("2. Add to Cart")
+        print("3. View Cart / Remove Item ")
+        print("4. Checkout ")
+        print("5. Log Out ")
+        choice = input("your Choice (1-5): ").strip()
+        if choice == "1":
+            print("product catalog")
+        elif choice == "2":
+            product_id = input("Enter Product ID: ")
+            selected_product = None
+            for product in products:
+                if str(product["id"]) == product_id:
+                    selected_product = product
+                    break
+            if selected_product:
+                if selected_product["stock"] > 0:
+                    cart.add_to_cart(current_cart, selected_product)
+                else:
+                    print("this item is out of stock ")
+            else:
+                print("product id not found")
+        elif choice == '3':
+            cart.show_cart(current_cart)
+            if current_cart:
+                ask = input("\nType 'r' to remove an item, or ENTER to go back: ")
+                if ask.lower() == 'r':
+                    r_id = input("Enter Product ID to remove: ")
+                    try:
+                        cart.remove_from_cart(current_cart, int(r_id))
+                    except ValueError:
+                        print("Invalid ID format.")
+        elif choice == '4':
+            if not current_cart:
+                print("Cart is empty! Cannot checkout.")
+            else:
+                total = cart.calculate_total(current_cart)
+                print("-------------------")
+                print("PAYMENT SUCCESSFUL")
+                print("-------------------")
+                print(f"Total Amount Paid: {total} ")
+                print("Thank you for shopping!")
+                current_cart = []
+        elif choice == '5':
+            print("Logging out from Customer Dashboard.")
+            break
+        else:
+            print("Invalid selection. Please try again.")
+
+
 def admin_dashboard(products: list, orders: list):
-    print("---------------")
-    print("admin dashboard")
-    print("---------------")
-    summary = sales_summary(orders)
-    print("total orders: " + str[summary["total_orders"]])
-    print("total revenue: " + str(summary["total_revenue"]))
-    print("---------------")
-    top_sellers = top_selling_products(orders, 5)
-    if not top_sellers:
-        print("no sale yet")
-    else:
-        for item in top_sellers:
-            product_id = item[0]
-            quantity = item[1]
-            price = item[2]
-    print("top sellers: ")
-    print(top_sellers)
-    print("---------------")
+    while True:
+        print("---------------")
+        print("admin dashboard")
+        print("---------------")
+        print("1. view products")
+        print("2. add products")
+        print("3.view orders and log out")
+        choice = input("your choice (1-3): ").strip()
+        if choice == "1":
+            print("current inventory")
+        elif choice == "2":
+            print("add new products")
+            try:
+                new_product = input("enter Product ID: ")
+                new_quantity = input("enter Quantity: ")
+                new_stock = input("enter Stock: ")
+                new_price = float(input("enter Price: "))
+                new_category = input("enter Category: ")
+                new_product = {
+                    "product_id": new_product,
+                    "quantity": new_quantity,
+                    "stock": new_stock,
+                    "price": new_price,
+                    "category": new_category,
+                }
+                products.append(new_product)
+                print(f"product added: {new_product}")
+            except ValueError:
+                print("invalid input")
+        elif choice == "3":
+            storage.write_json(storage.products_path, products)
+            print(f"product saved : {new_product}")
+            print("logging out from admin dashboard")
+            break
+        else: print("invalid selection, try again")
 
 
 def top_selling_products(orders: list, limit: int = 5):
@@ -78,5 +153,6 @@ def export_report(data: dict, filename: str):
     my_file.write(line2)
     my_file.close()
     return file_path
+
 
 

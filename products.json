@@ -1,0 +1,38 @@
+[
+  {
+    "id": 101,
+    "name": "Wireless Headphones",
+    "category": "Electronics",
+    "price": 1500.00,
+    "currency": "TRY",
+    "stock": 45,
+    "is_active": true
+  },
+  {
+    "id": 102,
+    "name": "Mechanical Keyboard",
+    "category": "Computers",
+    "price": 3250.50,
+    "currency": "TRY",
+    "stock": 12,
+    "is_active": true
+  },
+  {
+    "id": 103,
+    "name": "Thermos Cup",
+    "category": "Outdoor",
+    "price": 450.00,
+    "currency": "TRY",
+    "stock": 0,
+    "is_active": false
+  },
+  {
+    "id": 104,
+    "name": "Type-C Charging Cable",
+    "category": "Accessories",
+    "price": 120.00,
+    "currency": "TRY",
+    "stock": 100,
+    "is_active": true
+  }
+]
